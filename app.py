@@ -200,11 +200,11 @@ def handle_sms():
 def handle_email():
     lookup = Lookup()
     try:
-        envelope = simplejson.loads(request.form['envelope'])
+        #envelope = simplejson.loads(request.form['envelope'])
         lines = request.form['text'].splitlines(True)
         sms = {
             'to': email_to_phone(request.form['to']),
-            'from_': lookup.phone_for_email(envelope['from']),
+            'from_': lookup.phone_for_email(request.form['from']),
             'body': lines[0]
         }
     except InvalidInput, e:
