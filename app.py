@@ -204,6 +204,8 @@ def handle_email():
     try:
         #envelope = simplejson.loads(request.form['envelope'])
         lines = request.form['text'].splitlines(True)
+	
+	return warn(str(request.form['to']))
         sms = {
             'to': email_to_phone(request.form['to']),
             'from_': lookup.phone_for_email(request.form['from']),
