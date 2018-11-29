@@ -206,7 +206,7 @@ def handle_email():
         lines = request.form['text'].splitlines(True)
         sms = {
             'to': email_to_phone(request.form['to']),
-            'from_': lookup.phone_for_email(extract_email_address(request.form['from'])),
+            'from_': lookup.phone_for_email(request.form['from']),
             'body': lines[0]
         }
     except InvalidInput, e:
