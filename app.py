@@ -9,7 +9,7 @@ from twilio.rest import TwilioRestClient
 import phonenumbers as ph
 import sendgrid
 import simplejson
-
+import re
 from konfig import Konfig
 
 
@@ -195,7 +195,9 @@ def handle_sms():
     else:
         return '<Response></Response>'
 
-
+def extract_email_address(string):
+	match = re.search(r'[\w\.-]+@[\w\.-]+', string)
+	return match.group(0)
 @app.route('/handle-email', methods=['POST'])
 def handle_email():
     lookup = Lookup()
@@ -204,7 +206,7 @@ def handle_email():
         lines = request.form['text'].splitlines(True)
         sms = {
             'to': email_to_phone(request.form['to']),
-            'from_': lookup.phone_for_email(request.form['from']),
+            'from_': lookup.phone_for_email(extract_email_address(request.form['from'])),
             'body': lines[0]
         }
     except InvalidInput, e:
